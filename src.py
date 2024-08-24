@@ -8,6 +8,7 @@ import numpy as np
 from matplotlib.patches import Patch
 from scipy.stats import shapiro
 from scipy.stats import ttest_ind, mannwhitneyu
+import itertools
 
 
 # Function to add significance brackets
@@ -83,7 +84,8 @@ def add_stats_to_plot(raw_distances, positions_env_1_mix, positions_env_2_mix):
         p_values.append(p_val)
 
     # Adjust y value for significance bracket based on your plot's max value
-    y_max = np.max([np.max(raw_distances['env_1_mix']), np.max(raw_distances['env_2_mix'])])
+    #y_max = np.max([np.max(raw_distances['env_1_mix']), np.max(raw_distances['env_2_mix'])])
+    y_max = max(itertools.chain.from_iterable(raw_distances['env_1_mix'] + raw_distances['env_2_mix']))
     y_value_for_bracket = y_max * 1.1  # for example, 10% above the max value
 
     # Plot significance on the existing boxplot
