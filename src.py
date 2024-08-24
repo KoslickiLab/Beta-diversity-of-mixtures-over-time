@@ -8,7 +8,10 @@ import numpy as np
 from matplotlib.patches import Patch
 from scipy.stats import shapiro
 from scipy.stats import ttest_ind, mannwhitneyu
+<<<<<<< HEAD
 import itertools
+=======
+>>>>>>> 87654739f0c138efec5a799817bb6b40e4f8e954
 
 
 # Function to add significance brackets
