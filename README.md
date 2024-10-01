@@ -34,6 +34,14 @@ python .\samples_versus_mixture.py -c example_data\count_data_real.csv -m exampl
 ```
 This will produce the plots, raw beta diversity values of the environments vs. the mixtures, as well as their 
 averages (averaged over replicates) in the `example_data` directory. All files will have the prefix `real_`.
+
+Along with CSV files of the raw and averaged beta diversity values, the script will also output figures such as the 
+following:
+![Boxplot](example_data/real_boxplot_Jensen-Shannon.png)
+![Heatmap](example_data/real_heatmap_dendrogram_Cosine.png)
+
+
+
 ## Metadata format
 The metadata file should be a CSV file with the following **required** columns:
 - `ID`: unique identifier for each sample (matching those in the `count_table`)
