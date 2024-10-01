@@ -30,7 +30,7 @@ a clustering heatmap of the beta diversity values decorated with metadata inform
 
 An example usage is:
 ```bash
-python .\samples_versus_mixture.py -c example_data\count_data_real.csv -m example_data\metadata_real.csv -o example_data\real -p
+python ./samples_versus_mixture.py -c example_data/count_data_real.csv -m example_data/metadata_real.csv -o example_data/real -p
 ```
 This will produce the plots, raw beta diversity values of the environments vs. the mixtures, as well as their 
 averages (averaged over replicates) in the `example_data` directory. All files will have the prefix `real_`.
