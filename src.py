@@ -89,10 +89,10 @@ def add_stats_to_plot(raw_distances, positions_env_1_mix, positions_env_2_mix):
     # Plot significance on the existing boxplot
     for i, p_val in enumerate(p_values):
         if p_val < 0.05:  # Choose your significance level here
-            star_text = ('****' if p_val < 0.0001 else  # four stars for p < 0.0001
-                         '***' if p_val < 0.001 else  # three stars for p < 0.001
-                         '**' if p_val < 0.01 else  # two stars for p < 0.01
-                         '*' if p_val < 0.05 else  # single star for p < 0.05
+            star_text = (f'**** ({p_val:.3g})' if p_val < 0.0001 else  # four stars for p < 0.0001
+                         f'*** ({p_val:.3g})' if p_val < 0.001 else  # three stars for p < 0.001
+                         f'** ({p_val:.3g})' if p_val < 0.01 else  # two stars for p < 0.01
+                         f'* ({p_val:.3g})' if p_val < 0.05 else  # single star for p < 0.05
                          '')  # no star if p is not significant
 
             add_significance_bracket(plt.gca(), positions_env_1_mix[i], positions_env_2_mix[i], y_value_for_bracket,
