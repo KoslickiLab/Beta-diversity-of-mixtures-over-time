@@ -58,14 +58,21 @@ if not meta['Time'].apply(lambda x: str(x).isdigit()).all():
     raise ValueError("Time column must be numeric. Eg. 1, 2, 5, 10, etc.")
 
 # define the metrics
-metrics = ['euclidean', 'cosine', 'jensenshannon', earth_movers_distance]
-metrics_pretty = {'euclidean': 'Euclidean', 'cosine': 'Cosine', 'jensenshannon': 'Jensen-Shannon', 'earth_movers_distance': 'Earth Mover\'s Distance'}
+metrics = ['euclidean', 'cosine', 'jensenshannon', earth_movers_distance, 'jaccard']
+metrics_pretty = {'euclidean': 'Euclidean', 'cosine': 'Cosine', 'jensenshannon': 'Jensen-Shannon',
+                  'earth_movers_distance': 'Earth Mover\'s Distance', 'jaccard': 'Jaccard'}
 
 
 if plot_flag:
     for metric in metrics:
-        # Compute Jensen-Shannon distance
-        dists = pdist(df, metric=metric)
+        # Compute pairwise distances
+        # in the case of the jaccard, I need to set everything to binary in the df, but not overwrite the original df
+        if metric == 'jaccard':
+            binary_df = df.copy()
+            binary_df[binary_df > 0] = 1
+            dists = pdist(binary_df, metric=metric)
+        else:
+            dists = pdist(df, metric=metric)
         square_dists = squareform(dists)
 
         # Perform hierarchical clustering using the distance matrix
@@ -120,8 +127,9 @@ if plot_flag:
 meta = meta.loc[df.index]
 meta = meta.reindex(df.index)
 
-metrics = ['euclidean', 'cosine', 'jensenshannon', earth_movers_distance]
-metrics_pretty = {'euclidean': 'Euclidean', 'cosine': 'Cosine', 'jensenshannon': 'Jensen-Shannon', 'earth_movers_distance': 'Earth Mover\'s Distance'}
+#metrics = ['euclidean', 'cosine', 'jensenshannon', earth_movers_distance]
+#metrics_pretty = {'euclidean': 'Euclidean', 'cosine': 'Cosine', 'jensenshannon': 'Jensen-Shannon',
+# 'earth_movers_distance': 'Earth Mover\'s Distance'}
 
 raw_distances_by_metric = {}
 for metric in metrics:
@@ -135,7 +143,13 @@ for metric in metrics:
         time_samples = meta[meta['Time'] == time_point]
         time_point_samples = df.loc[time_samples.index]
         # dist_matrix = pdist(time_point_samples, metric='euclidean')
-        dist_matrix = pdist(time_point_samples, metric=metric)
+        if metric == 'jaccard':
+            # make a copy of the df
+            binary_df = time_point_samples.copy()
+            binary_df[binary_df > 0] = 1
+            dist_matrix = pdist(binary_df, metric=metric)
+        else:
+            dist_matrix = pdist(time_point_samples, metric=metric)
         dist_matrix_square = squareform(dist_matrix)
 
         # Identifying samples
